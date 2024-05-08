@@ -128,13 +128,74 @@ class DetailCalendar extends StatelessWidget {
                 )),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(15, 30, 15, 30),
+            margin: const EdgeInsets.fromLTRB(15, 40, 15, 50),
             child: Text(
               Utils.FormatterDescription(
                   detailsCalendar.description.ptBr ?? ""),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
             ),
           ),
+          Container(
+            padding: EdgeInsets.only(left: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ...Set.from(detailsCalendar.people
+                    .map((person) => person.role.label.ptBr)).map((roleLabel) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        roleLabel!,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w700),
+                      ),
+                      SizedBox(height: 10),
+                      ...detailsCalendar.people
+                          .where(
+                              (person) => person.role.label.ptBr == roleLabel)
+                          .map((person) => Container(
+                                padding: EdgeInsets.only(bottom: 15),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 30,
+                                      backgroundColor: Colors.grey,
+                                      backgroundImage: person.picture != null
+                                          ? NetworkImage(person.picture!)
+                                          : null,
+                                      child: person.picture == null
+                                          ? Icon(Icons.person,
+                                              size: 40, color: Colors.white)
+                                          : null,
+                                    ),
+                                    SizedBox(width: 18),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          person.name,
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Text(person.institution ?? ""),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                    ],
+                  );
+                }).toList(),
+              ],
+            ),
+          )
         ]),
       ),
     );

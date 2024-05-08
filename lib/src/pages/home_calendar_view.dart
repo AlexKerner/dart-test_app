@@ -64,7 +64,7 @@ class _HomeCalendarViewState extends State<HomeCalendarView> {
                               Radius.circular(10),
                             )),
                         child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+                          padding: EdgeInsets.fromLTRB(15, 10, 15, 5),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,

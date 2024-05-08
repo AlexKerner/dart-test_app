@@ -22,7 +22,6 @@ class GetAllCalendartListImp implements IGetAllCalendarList {
       final calendarModel = CalendarListModel.fromJson((dataFinal));
 
       final listaModel = calendarModel.data;
-      print(listaModel);
 
       return listaModel;
     } on DioException catch (e) {
