@@ -1,11 +1,9 @@
 import 'package:chuva_dart/src/controllers/calendar_home_controller.dart';
-import 'package:chuva_dart/src/pages/detail_calendar_view.dart';
 import 'package:chuva_dart/src/services/get_all_calendart_list_imp.dart';
 import 'package:chuva_dart/src/widgets/app_bar.dart';
+import 'package:chuva_dart/src/widgets/card_calendar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:from_css_color/from_css_color.dart';
 
 class HomeCalendarView extends StatefulWidget {
   const HomeCalendarView({super.key});
@@ -36,67 +34,7 @@ class _HomeCalendarViewState extends State<HomeCalendarView> {
               itemBuilder: (cxt, i) {
                 final item = valor[i];
 
-                return Padding(
-                  padding: const EdgeInsets.only(left: 5, right: 5),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  DetailCalendar(detailsCalendar: item)));
-                    },
-                    child: Card(
-                      child: Container(
-                        height: 115,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            color: Colors.white30,
-                            border: Border(
-                              left: BorderSide(
-                                color: item.category.color != null
-                                    ? fromCssColor(item.category.color!)
-                                    : fromCssColor("#aaa"),
-                                width: 5.0,
-                              ),
-                            ),
-                            borderRadius: BorderRadiusDirectional.all(
-                              Radius.circular(10),
-                            )),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(15, 10, 15, 5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.type.title.ptBr!,
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                item.title.ptBr!,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.w500),
-                              ),
-                              Expanded(
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: item.people.length,
-                                    itemBuilder: (cntx, index) {
-                                      final person = item.people[index];
-                                      return Text(person.name ?? "");
-                                    }),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
+                return CalendarCard(item: item);
               },
             );
           }),

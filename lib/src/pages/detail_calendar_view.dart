@@ -1,5 +1,9 @@
+import 'package:chuva_dart/src/controllers/calendar_home_controller.dart';
 import 'package:chuva_dart/src/models/calendar_list_model.dart';
+import 'package:chuva_dart/src/pages/detail_people_view.dart';
+import 'package:chuva_dart/src/services/get_all_calendart_list_imp.dart';
 import 'package:chuva_dart/src/utils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,10 +13,12 @@ import 'package:intl/date_symbol_data_local.dart';
 
 class DetailCalendar extends StatelessWidget {
   final Datum detailsCalendar;
-  const DetailCalendar({super.key, required this.detailsCalendar});
-
+ DetailCalendar({super.key, required this.detailsCalendar});
+  final calendarController =
+      CalendarHomeController(GetAllCalendartListImp(Dio()));
   @override
   Widget build(BuildContext context) {
+    calendarController.getAllCalendar();
     initializeDateFormatting('pt_BR');
     final startDate = detailsCalendar.start;
     final endDate = detailsCalendar.end;
@@ -135,26 +141,43 @@ class DetailCalendar extends StatelessWidget {
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ...Set.from(detailsCalendar.people
-                    .map((person) => person.role.label.ptBr)).map((roleLabel) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        roleLabel!,
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w700),
-                      ),
-                      SizedBox(height: 10),
-                      ...detailsCalendar.people
-                          .where(
-                              (person) => person.role.label.ptBr == roleLabel)
-                          .map((person) => Container(
+          ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: Set.from(detailsCalendar.people
+                .map((person) => person.role.label.ptBr)).length,
+            itemBuilder: (cont, indx) {
+              final currentCategory = Set.from(detailsCalendar.people
+                  .map((person) => person.role.label.ptBr)).toList()[indx];
+              final peopleForCategory = detailsCalendar.people
+                  .where((person) => person.role.label.ptBr == currentCategory)
+                  .toList();
+
+              return Container(
+                padding: EdgeInsets.only(left: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      currentCategory!,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(height: 10),
+                    ...peopleForCategory
+                        .map((person) => InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPeopleView(
+                                      data: calendarController.listaGetCalendar,
+                                      detailPeople: person,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
                                 padding: EdgeInsets.only(bottom: 15),
                                 child: Row(
                                   children: [
@@ -179,22 +202,21 @@ class DetailCalendar extends StatelessWidget {
                                         Text(
                                           person.name,
                                           style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w500),
                                         ),
                                         Text(person.institution ?? ""),
                                       ],
                                     )
                                   ],
                                 ),
-                              ))
-                          .toList(),
-                    ],
-                  );
-                }).toList(),
-              ],
-            ),
+                              ),
+                            ))
+                        .toList(),
+                  ],
+                ),
+              );
+            },
           )
         ]),
       ),
