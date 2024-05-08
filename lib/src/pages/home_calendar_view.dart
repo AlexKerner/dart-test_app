@@ -4,6 +4,7 @@ import 'package:chuva_dart/src/services/get_all_calendart_list_imp.dart';
 import 'package:chuva_dart/src/widgets/app_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:from_css_color/from_css_color.dart';
 
 class HomeCalendarView extends StatefulWidget {
@@ -30,18 +31,21 @@ class _HomeCalendarViewState extends State<HomeCalendarView> {
       body: ValueListenableBuilder(
           valueListenable: calendarController.listaGetCalendar,
           builder: (context, valor, _) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DetailCalendar()));
-              },
-              child: ListView.builder(
-                itemCount: valor.length,
-                itemBuilder: (cxt, i) {
-                  final item = valor[i];
+            return ListView.builder(
+              itemCount: valor.length,
+              itemBuilder: (cxt, i) {
+                final item = valor[i];
 
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5),
+                return Padding(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailCalendar(detailsCalendar: item)));
+                    },
                     child: Card(
                       child: Container(
                         height: 115,
@@ -76,15 +80,24 @@ class _HomeCalendarViewState extends State<HomeCalendarView> {
                                 style: TextStyle(
                                     fontSize: 17, fontWeight: FontWeight.w500),
                               ),
-                              Text(item.category.title.ptBr!)
+                              Expanded(
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: item.people.length,
+                                    itemBuilder: (cntx, index) {
+                                      final person = item.people[index];
+                                      return Text(person.name ?? "");
+                                    }),
+                              )
                             ],
                           ),
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             );
           }),
     );
