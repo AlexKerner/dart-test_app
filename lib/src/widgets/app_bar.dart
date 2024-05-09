@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+  const AppBarWidget({super.key});
+
   @override
-  Size get preferredSize => Size.fromHeight(140);
+  Size get preferredSize => const Size.fromHeight(140);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           Container(
             width: 350,
             height: 50,
-            margin: EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               color: Colors.white,
@@ -38,18 +40,18 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 Container(
                   width: 60,
                   height: 50,
-                  margin: EdgeInsets.only(left: 4, top: 4, bottom: 4),
+                  margin: const EdgeInsets.only(left: 4, top: 4, bottom: 4),
                   decoration: BoxDecoration(
                     color: fromCssColor("#306DC3"),
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.calendar_month,
                     size: 30,
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20),
+                  margin: const EdgeInsets.only(left: 20),
                   child: const Text(
                     'Exibindo todas as atividades',
                     style: TextStyle(

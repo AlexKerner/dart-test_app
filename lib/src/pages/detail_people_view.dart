@@ -28,7 +28,7 @@ class DetailPeopleView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.only(left: 10, top: 15),
+              margin: const EdgeInsets.only(left: 10, top: 15),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -39,53 +39,53 @@ class DetailPeopleView extends StatelessWidget {
                         ? NetworkImage(detailPeople.picture!)
                         : null,
                     child: detailPeople.picture == null
-                        ? Icon(Icons.person, size: 40, color: Colors.white)
+                        ? const Icon(Icons.person,
+                            size: 40, color: Colors.white)
                         : null,
                   ),
-                  SizedBox(width: 12),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 200,
-                          child: Text(
-                            detailPeople.name,
-                            softWrap: true,
-                            style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w500,
-                                height: 1.25),
-                          ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        child: Text(
+                          detailPeople.name,
+                          softWrap: true,
+                          style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w500,
+                              height: 1.25),
                         ),
-                        Text(
-                          detailPeople.institution ?? "",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ],
-                    ),
+                      ),
+                      Text(
+                        detailPeople.institution ?? "",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ],
                   )
                 ],
               ),
             ),
             if (detailPeople.bio.ptBr != null)
               Container(
-                  margin: EdgeInsets.only(left: 15, top: 25, bottom: 10),
-                  child: Text(
+                  margin: const EdgeInsets.only(left: 15, top: 25, bottom: 10),
+                  child: const Text(
                     "Bio",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                   )),
             Container(
-              margin: EdgeInsets.only(left: 15, right: 20),
+              margin: const EdgeInsets.only(left: 15, right: 20),
               child: Text(
                 Utils.FormatterDescription(detailPeople.bio.ptBr ?? ""),
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
               ),
             ),
             Container(
-                margin: EdgeInsets.only(left: 15, top: 25, bottom: 5),
-                child: Text(
+                margin: const EdgeInsets.only(left: 15, top: 25, bottom: 5),
+                child: const Text(
                   "Atividades",
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 )),
@@ -95,7 +95,7 @@ class DetailPeopleView extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17)),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 10),
               child: ValueListenableBuilder<List<Datum>>(
                 valueListenable: data,
                 builder: (context, dataList, _) {

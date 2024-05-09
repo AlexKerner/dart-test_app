@@ -4,16 +4,14 @@ import 'package:chuva_dart/src/pages/detail_people_view.dart';
 import 'package:chuva_dart/src/services/get_all_calendart_list_imp.dart';
 import 'package:chuva_dart/src/utils.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class DetailCalendar extends StatelessWidget {
   final Datum detailsCalendar;
- DetailCalendar({super.key, required this.detailsCalendar});
+  DetailCalendar({super.key, required this.detailsCalendar});
   final calendarController =
       CalendarHomeController(GetAllCalendartListImp(Dio()));
   @override
@@ -24,7 +22,7 @@ class DetailCalendar extends StatelessWidget {
     final endDate = detailsCalendar.end;
     final startFormatted = DateFormat('EEEE HH:mm', 'pt_BR').format(startDate);
     final endFormatted = DateFormat('HH:mm', 'pt_BR').format(endDate);
-    final dateFormatted = '$startFormatted\h\ - $endFormatted\h\ ';
+    final dateFormatted = '$startFormatted\h - $endFormatted\h ';
 
     return Scaffold(
       appBar: AppBar(
@@ -46,46 +44,46 @@ class DetailCalendar extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(10, 6, 0, 5),
             child: Text(
               detailsCalendar.category.title.ptBr!,
-              style: TextStyle(color: Colors.white, fontSize: 17),
+              style: const TextStyle(color: Colors.white, fontSize: 17),
             ),
           ),
           Container(
             padding: const EdgeInsets.all(20),
             child: Text(
               detailsCalendar.title.ptBr!,
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
           ),
           Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   children: [
                     Icon(
                       Icons.timer_outlined,
                       color: fromCssColor("#306DC3"),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 3,
                     ),
                     Text(dateFormatted,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w400))
                   ],
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 10),
-                margin: EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(left: 10),
+                margin: const EdgeInsets.only(top: 5),
                 child: Row(
                   children: [
                     Icon(
                       Icons.location_pin,
                       color: fromCssColor("#306DC3"),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 3,
                     ),
                     Expanded(
@@ -95,7 +93,7 @@ class DetailCalendar extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final item = detailsCalendar.locations[index];
                             return Text(item.title.ptBr!,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 17, fontWeight: FontWeight.w400));
                           }),
                     )
@@ -105,17 +103,17 @@ class DetailCalendar extends StatelessWidget {
             ],
           ),
           Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                     backgroundColor: fromCssColor("#306DC3"),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
-                child: Center(
-                  child: Container(
+                child: const Center(
+                  child: SizedBox(
                     width: 200,
-                    child: const Row(
+                    child: Row(
                       children: [
                         Icon(
                           Icons.star,
@@ -138,12 +136,12 @@ class DetailCalendar extends StatelessWidget {
             child: Text(
               Utils.FormatterDescription(
                   detailsCalendar.description.ptBr ?? ""),
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
             ),
           ),
           ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: Set.from(detailsCalendar.people
                 .map((person) => person.role.label.ptBr)).length,
             itemBuilder: (cont, indx) {
@@ -154,16 +152,16 @@ class DetailCalendar extends StatelessWidget {
                   .toList();
 
               return Container(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       currentCategory!,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w700),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ...peopleForCategory
                         .map((person) => InkWell(
                               onTap: () {
@@ -178,7 +176,7 @@ class DetailCalendar extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                padding: EdgeInsets.only(bottom: 15),
+                                padding: const EdgeInsets.only(bottom: 15),
                                 child: Row(
                                   children: [
                                     CircleAvatar(
@@ -188,11 +186,11 @@ class DetailCalendar extends StatelessWidget {
                                           ? NetworkImage(person.picture!)
                                           : null,
                                       child: person.picture == null
-                                          ? Icon(Icons.person,
+                                          ? const Icon(Icons.person,
                                               size: 40, color: Colors.white)
                                           : null,
                                     ),
-                                    SizedBox(width: 18),
+                                    const SizedBox(width: 18),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -201,7 +199,7 @@ class DetailCalendar extends StatelessWidget {
                                       children: [
                                         Text(
                                           person.name,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 17,
                                               fontWeight: FontWeight.w500),
                                         ),

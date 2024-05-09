@@ -4,6 +4,7 @@ class Utils {
   Utils._();
   static Utils get instance => _instance ??= Utils._();
 
+  // ignore: non_constant_identifier_names
   static String FormatterDescription(String text) {
     final item = text
         .replaceAll(

@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final calendarListModelTeste = calendarListModelTesteFromJson(jsonString);
+// final calendarListModelTeste = calendarListModelTesteFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -137,29 +135,9 @@ class Category {
         "id": id,
         "title": title.toJson(),
         "color": color,
-        "background-color": backgroundColorValues.reverse[backgroundColor],
+        "background-color": backgroundColor,
       };
 }
-
-enum BackgroundColor { E4_FFFE, F5_F3_E5, F7_F0_FB, FEEFE4, FEFCE7 }
-
-final backgroundColorValues = EnumValues({
-  "#E4FFFE": BackgroundColor.E4_FFFE,
-  "#F5F3E5": BackgroundColor.F5_F3_E5,
-  "#F7F0FB": BackgroundColor.F7_F0_FB,
-  "#FEEFE4": BackgroundColor.FEEFE4,
-  "#FEFCE7": BackgroundColor.FEFCE7
-});
-
-enum Color { C24_FFE, C7_B884, F0_DB06, FB8_C2_C, THE_29_CFC9 }
-
-final colorValues = EnumValues({
-  "#C24FFE": Color.C24_FFE,
-  "#C7B884": Color.C7_B884,
-  "#F0DB06": Color.F0_DB06,
-  "#FB8C2C": Color.FB8_C2_C,
-  "#29CFC9": Color.THE_29_CFC9
-});
 
 class Description {
   final String? ptBr;
@@ -177,6 +155,7 @@ class Description {
       };
 }
 
+// ignore: constant_identifier_names
 enum Event { TESTE_EXERCICIO }
 
 final eventValues = EnumValues({"teste-exercicio": Event.TESTE_EXERCICIO});

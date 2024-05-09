@@ -35,25 +35,26 @@ class CalendarCard extends StatelessWidget {
                   width: 5.0,
                 ),
               ),
-              borderRadius: BorderRadiusDirectional.all(
+              borderRadius: const BorderRadiusDirectional.all(
                 Radius.circular(10),
               ),
             ),
             child: Container(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 5),
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     item.type.title.ptBr!,
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                   Text(
                     item.title.ptBr!,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 17, fontWeight: FontWeight.w500),
                   ),
                   Expanded(
                     child: ListView.builder(

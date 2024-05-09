@@ -25,7 +25,7 @@ class _HomeCalendarViewState extends State<HomeCalendarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(),
+      appBar: const AppBarWidget(),
       body: ValueListenableBuilder(
           valueListenable: calendarController.listaGetCalendar,
           builder: (context, valor, _) {
