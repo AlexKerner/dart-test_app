@@ -45,9 +45,22 @@ class CalendarCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    item.type.title.ptBr!,
-                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        item.type.title.ptBr!,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      item.isFavorited
+                          ? Icon(
+                              Icons.bookmark,
+                              color: fromCssColor("#7C90AC"),
+                            )
+                          : const SizedBox(
+                              width: 0,
+                            )
+                    ],
                   ),
                   Text(
                     item.title.ptBr!,

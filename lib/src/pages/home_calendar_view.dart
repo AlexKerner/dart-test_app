@@ -5,21 +5,39 @@ import 'package:chuva_dart/src/widgets/card_calendar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+final RouteObserver<ModalRoute<Object?>> routeObserver =
+    RouteObserver<ModalRoute<Object?>>();
+
 class HomeCalendarView extends StatefulWidget {
-  const HomeCalendarView({super.key});
+  const HomeCalendarView({Key? key}) : super(key: key);
 
   @override
   State<HomeCalendarView> createState() => _HomeCalendarViewState();
 }
 
-class _HomeCalendarViewState extends State<HomeCalendarView> {
+class _HomeCalendarViewState extends State<HomeCalendarView> with RouteAware {
   final calendarController =
       CalendarHomeController(GetAllCalendartListImp(Dio()));
 
   @override
   void initState() {
-    calendarController.getAllCalendar();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      routeObserver.subscribe(this, ModalRoute.of(context)!);
+    });
+    calendarController.getAllCalendar();
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    // Atualiza a lista ao voltar da pagina de detalhe
+    calendarController.getAllCalendar();
   }
 
   @override

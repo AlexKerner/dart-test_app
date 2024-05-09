@@ -50,6 +50,7 @@ class Datum {
   final dynamic addons;
   final int? parent;
   final Event event;
+  bool isFavorited;
 
   Datum({
     required this.id,
@@ -68,6 +69,7 @@ class Datum {
     required this.addons,
     required this.parent,
     required this.event,
+    this.isFavorited = false
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -108,6 +110,7 @@ class Datum {
         "addons": addons,
         "parent": parent,
         "event": eventValues.reverse[event],
+        "isFavorited": isFavorited
       };
 }
 

@@ -9,17 +9,29 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class DetailCalendar extends StatelessWidget {
+class DetailCalendar extends StatefulWidget {
   final Datum detailsCalendar;
+
   DetailCalendar({super.key, required this.detailsCalendar});
+
+  @override
+  State<DetailCalendar> createState() => _DetailCalendarState();
+}
+
+class _DetailCalendarState extends State<DetailCalendar> {
   final calendarController =
       CalendarHomeController(GetAllCalendartListImp(Dio()));
+
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     calendarController.getAllCalendar();
+
     initializeDateFormatting('pt_BR');
-    final startDate = detailsCalendar.start;
-    final endDate = detailsCalendar.end;
+
+    final startDate = widget.detailsCalendar.start;
+    final endDate = widget.detailsCalendar.end;
     final startFormatted = DateFormat('EEEE HH:mm', 'pt_BR').format(startDate);
     final endFormatted = DateFormat('HH:mm', 'pt_BR').format(endDate);
     final dateFormatted = '$startFormatted\h - $endFormatted\h ';
@@ -34,23 +46,28 @@ class DetailCalendar extends StatelessWidget {
                 letterSpacing: 0.5)),
         centerTitle: true,
         backgroundColor: fromCssColor("#456189"),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context, widget.detailsCalendar);
+            },
+            icon: Icon(Icons.arrow_back_ios)),
       ),
       body: SingleChildScrollView(
         child: Column(children: [
           Container(
             width: MediaQuery.of(context).size.width,
             height: 40,
-            color: fromCssColor(detailsCalendar.category.color!),
+            color: fromCssColor(widget.detailsCalendar.category.color!),
             padding: const EdgeInsets.fromLTRB(10, 6, 0, 5),
             child: Text(
-              detailsCalendar.category.title.ptBr!,
+              widget.detailsCalendar.category.title.ptBr!,
               style: const TextStyle(color: Colors.white, fontSize: 17),
             ),
           ),
           Container(
             padding: const EdgeInsets.all(20),
             child: Text(
-              detailsCalendar.title.ptBr!,
+              widget.detailsCalendar.title.ptBr!,
               style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -89,9 +106,10 @@ class DetailCalendar extends StatelessWidget {
                     Expanded(
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: detailsCalendar.locations.length,
+                          itemCount: widget.detailsCalendar.locations.length,
                           itemBuilder: (context, index) {
-                            final item = detailsCalendar.locations[index];
+                            final item =
+                                widget.detailsCalendar.locations[index];
                             return Text(item.title.ptBr!,
                                 style: const TextStyle(
                                     fontSize: 17, fontWeight: FontWeight.w400));
@@ -105,49 +123,81 @@ class DetailCalendar extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: fromCssColor("#306DC3"),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5))),
-                child: const Center(
-                  child: SizedBox(
-                    width: 200,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Adicionar à sua agenda",
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    ),
+              onPressed: () {
+                setState(() {
+                  isLoading = true;
+                  widget.detailsCalendar.isFavorited =
+                      !widget.detailsCalendar.isFavorited;
+                });
+                // Simulação de uma operação assíncrona
+                Future.delayed(const Duration(seconds: 2), () {
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isLoading
+                    ? fromCssColor("#DCDCDC")
+                    : fromCssColor("#306DC3"),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: Center(
+                child: SizedBox(
+                  width: 200,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Icon(
+                              widget.detailsCalendar.isFavorited
+                                  ? Icons.star_outline
+                                  : Icons.star,
+                              color: Colors.white,
+                            ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        isLoading
+                            ? "Processando"
+                            : widget.detailsCalendar.isFavorited
+                                ? "Remover da sua agenda"
+                                : "Adicionar à sua agenda",
+                        style: const TextStyle(color: Colors.white),
+                      )
+                    ],
                   ),
-                )),
+                ),
+              ),
+            ),
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(15, 40, 15, 50),
             child: Text(
               Utils.FormatterDescription(
-                  detailsCalendar.description.ptBr ?? ""),
+                  widget.detailsCalendar.description.ptBr ?? ""),
               style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
             ),
           ),
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: Set.from(detailsCalendar.people
+            itemCount: Set.from(widget.detailsCalendar.people
                 .map((person) => person.role.label.ptBr)).length,
             itemBuilder: (cont, indx) {
-              final currentCategory = Set.from(detailsCalendar.people
+              final currentCategory = Set.from(widget.detailsCalendar.people
                   .map((person) => person.role.label.ptBr)).toList()[indx];
-              final peopleForCategory = detailsCalendar.people
+              final peopleForCategory = widget.detailsCalendar.people
                   .where((person) => person.role.label.ptBr == currentCategory)
                   .toList();
 
