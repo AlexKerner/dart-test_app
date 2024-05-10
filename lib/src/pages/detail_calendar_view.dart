@@ -12,7 +12,7 @@ import 'package:intl/date_symbol_data_local.dart';
 class DetailCalendar extends StatefulWidget {
   final Datum detailsCalendar;
 
-  DetailCalendar({super.key, required this.detailsCalendar});
+  const DetailCalendar({super.key, required this.detailsCalendar});
 
   @override
   State<DetailCalendar> createState() => _DetailCalendarState();
@@ -23,6 +23,19 @@ class _DetailCalendarState extends State<DetailCalendar> {
       CalendarHomeController(GetAllCalendartListImp(Dio()));
 
   bool isLoading = false;
+
+  void showSnackBar(BuildContext context, bool isFavorited) {
+    final message = isFavorited
+        ? 'Vamos te lembrar dessa atividade.'
+        : 'Não vamos mais te lembrar dessa atividade.';
+
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 2),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +63,7 @@ class _DetailCalendarState extends State<DetailCalendar> {
             onPressed: () {
               Navigator.pop(context, widget.detailsCalendar);
             },
-            icon: Icon(Icons.arrow_back_ios)),
+            icon: const Icon(Icons.arrow_back_ios)),
       ),
       body: SingleChildScrollView(
         child: Column(children: [
@@ -128,6 +141,7 @@ class _DetailCalendarState extends State<DetailCalendar> {
                   isLoading = true;
                   widget.detailsCalendar.isFavorited =
                       !widget.detailsCalendar.isFavorited;
+                  showSnackBar(context, widget.detailsCalendar.isFavorited);
                 });
                 // Simulação de uma operação assíncrona
                 Future.delayed(const Duration(seconds: 2), () {

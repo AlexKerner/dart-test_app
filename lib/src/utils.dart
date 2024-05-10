@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Utils {
   static Utils? _instance;
   // Avoid self instance
@@ -15,5 +17,13 @@ class Utils {
         .replaceAll("</p>", "");
 
     return item;
+  }
+
+  static String getMonth(DateTime dateTime) {
+    return DateFormat.MMM().format(dateTime);
+  }
+
+  static int getDay(DateTime dateTime) {
+    return dateTime.day;
   }
 }

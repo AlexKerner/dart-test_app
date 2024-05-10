@@ -14,15 +14,19 @@ class DetailPeopleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text('Chuva 💜 Flutter',
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.5)),
-        centerTitle: true,
-        backgroundColor: fromCssColor("#456189"),
-      ),
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Text('Chuva 💜 Flutter',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5)),
+          centerTitle: true,
+          backgroundColor: fromCssColor("#456189"),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios))),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

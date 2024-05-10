@@ -8,8 +8,22 @@ class CalendarHomeController {
   CalendarHomeController(this.calendarServie);
 
   final listaGetCalendar = ValueNotifier(<Datum>[]);
+  final listByDay = ValueNotifier(<Datum>[]);
+  final listFiltered = ValueNotifier(<Datum>[]);
 
   getAllCalendar() async {
     listaGetCalendar.value = await calendarServie.getAllCalendarList();
+    listByDay.value = List.from(listaGetCalendar.value);
+    listFiltered.value = List.from(listaGetCalendar.value);
+  }
+
+  getByDay(DateTime day) async {
+    final filteredEvents = listaGetCalendar.value
+        .where((event) =>
+            event.start.year == day.year &&
+            event.start.month == day.month &&
+            event.start.day == day.day)
+        .toList();
+    listFiltered.value = List.from(filteredEvents);
   }
 }
